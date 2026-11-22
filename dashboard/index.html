@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Token Launch Radar — which pre-token protocol to farm next</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="hero">
+  <p class="eyebrow">make.fun &middot; token-radar-01 &middot; snapshot <span id="asOf">—</span></p>
+  <h1>Token Launch Radar</h1>
+  <p class="lede">Every protocol that <strong>records no token yet</strong>, ranked by what its launch would be
+  worth — and the steps to farm each one. Implied value is the radar&rsquo;s own claim, never a promise:
+  it follows from the snapshot&rsquo;s own figures (TVL, seven-day growth, age without a token), never
+  from a hand-kept list of names.</p>
+  <div class="stats" id="stats"></div>
+</header>
+
+<main>
+  <section class="controls" aria-label="Filter the board">
+    <input id="q" type="search" placeholder="Search a protocol…" autocomplete="off">
+    <select id="category" aria-label="Category"><option value="">All categories</option></select>
+    <select id="chain" aria-label="Chain"><option value="">All chains</option></select>
+    <label class="check"><input id="watchlistOnly" type="checkbox"> Watchlist only</label>
+    <select id="sort" aria-label="Sort by">
+      <option value="rank">Sort: implied value</option>
+      <option value="tvl">Sort: TVL</option>
+      <option value="growth">Sort: 7-day growth</option>
+      <option value="age">Sort: age without a token</option>
+    </select>
+  </section>
+
+  <p class="count" id="count"></p>
+
+  <section class="board-wrap">
+    <table class="board" id="board">
+      <thead><tr>
+        <th class="num">#</th><th>Protocol</th><th>Category</th><th>Chains</th>
+        <th class="num">TVL</th><th class="num">7d</th><th class="num">Age</th><th class="num">Implied value</th>
+      </tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <aside class="detail" id="detail" hidden></aside>
+  </section>
+
+  <section class="live">
+    <h2>Already trading — the market&rsquo;s own values</h2>
+    <p class="note">These protocols record a token, so they are <em>not</em> on the ranked board. Their market caps
+    are shown as the market states them, and they are also what the radar&rsquo;s category ratios are
+    learned from: what the market already pays per dollar of TVL for each kind of protocol.</p>
+    <table class="board slim" id="liveTable">
+      <thead><tr><th>Protocol</th><th>Category</th><th class="num">TVL</th><th class="num">Market cap</th><th class="num">7d</th></tr></thead>
+      <tbody id="liveRows"></tbody>
+    </table>
+  </section>
+
+  <section class="method">
+    <h2>How the radar scores</h2>
+    <ol>
+      <li><strong>Eligible:</strong> the record carries no token (no CoinGecko id, no symbol), and it is not a
+      wrapped, staked or bridged product of a token that already trades, nor an exchange, nor a versioned
+      pool. The house watchlist&rsquo;s own rule, applied to the whole snapshot instead of only above its
+      $50M floor. Every watchlist slug is on the board; the rest are the early rows.</li>
+      <li><strong>Category ratio:</strong> the median market-cap-per-TVL of the live-token protocols in the same
+      category (five peers or more, else the snapshot-wide median). What the market already pays per
+      dollar of TVL for this kind of protocol.</li>
+      <li><strong>Implied value = TVL &times; category ratio &times; growth &times; age.</strong> Growth is the
+      seven-day TVL change, clamped to &minus;50&hellip;+150% and weighted 0.6. Age is how long the protocol
+      has run with no token, 0.8&hellip;1.2 over four years. A protocol the record says nothing about is
+      scored at one year of age and zero growth.</li>
+      <li><strong>Farm plan:</strong> six steps per protocol, derived from its own category, chains, TVL and age —
+      what to do, what it costs, how long it takes. Nothing here predicts whether or when a token is
+      issued; a protocol on the board may still have a token its record does not carry.</li>
+    </ol>
+    <p class="source" id="source"></p>
+  </section>
+</main>
+
+<script src="../data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
